@@ -1,6 +1,6 @@
 ---
 name: Please don't create new issues
-about: Please don't create new issues
+about: This project is no longer maintained
 title: Please don't create new issues
 labels: ''
 assignees: kmod
