@@ -1,0 +1,52 @@
+version: 2.1
+
+workflows:
+  build:
+    jobs:
+      - build:
+          name: build_arm64
+          filters:
+            tags:
+              only:
+                - /^v.*/
+            branches:
+              ignore:
+                - /.*/
+          machine-type: arm64
+      - build:
+          name: build_x64
+          filters:
+            tags:
+              only:
+                - /^v.*/
+            branches:
+              ignore:
+                - /.*/
+          machine-type: amd64
+
+executors:
+  arm64:
+    machine:
+      resource_class: arm.2xlarge
+      image: ubuntu-2204:current
+  amd64:
+    machine:
+      resource_class: 2xlarge
+      image: ubuntu-2204:current
+
+jobs:
+  build:
+    parameters:
+      machine-type:
+        type: executor
+    executor: << parameters.machine-type >>
+
+    steps:
+      - checkout
+      - run:
+          name: build
+          command: |
+             git submodule update --init pyston/llvm pyston/bolt pyston/LuaJIT pyston/macrobenchmarks
+             ./pyston/tools/make_release.sh 20.04
+      - store_artifacts:
+          path: release

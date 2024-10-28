@@ -69,8 +69,8 @@ rm -rf build
 git clean -fdx
 
 ln -sf /usr/lib/linux-tools/*/perf /usr/bin/perf
-make package -j`nproc`
-make build/release_env/bin/python3
+make package -j`nproc` CONFIGURE_EXTRA_FLAGS="--with-dtrace"
+make build/release_env/bin/python3 CONFIGURE_EXTRA_FLAGS="--with-dtrace"
 build/release_env/bin/python3 pyston/tools/make_portable_dir.py pyston_${VERSION}_${ARCH}.deb pyston_${VERSION}
 chown -R $(id -u):$(id -g) pyston_${VERSION}_${ARCH}.deb
 chown -R $(id -u):$(id -g) pyston_${VERSION}

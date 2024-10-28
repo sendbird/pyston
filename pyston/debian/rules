@@ -27,7 +27,7 @@ override_dh_auto_configure:
 
 
 override_dh_auto_build:
-	make -j`nproc` -C .. build/release_env/bin/python
+	make -j`nproc` -C .. build/release_env/bin/python CONFIGURE_EXTRA_FLAGS="--with-dtrace"
 	# Don't package pkgconfig:
 	rm -r ../build/release_install/usr/lib/pkgconfig
 
